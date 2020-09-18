@@ -6,9 +6,9 @@ A simple Todo App to practice on Express framework and use CURD operation in Mon
 * MongoDB (MongoDB Atlas)
 * React Native (Expo 36)
 ## Launch
-To run the server side
+To run the server side<br />
 `npm run server`<br />
-To run the client side
+To run the client side<br />
 `npm run client`
 ## Inspiration
 This app is based on those tutorials:
