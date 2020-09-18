@@ -1,5 +1,5 @@
 # TodoApp 
-A simple Todo App to practice on Express framework and use CURD operation in MongoDB \
+A simple Todo App to practice on Express framework and use CURD operation in MongoDB 
 ## Technologies
 * Node v12
 * Express 4.x
@@ -7,7 +7,7 @@ A simple Todo App to practice on Express framework and use CURD operation in Mon
 * React Native (Expo 36)
 ## Launch
 To run the server side
-`npm run server`
+`npm run server`<br />
 To run the client side
 `npm run client`
 ## Inspiration
