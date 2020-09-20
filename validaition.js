@@ -5,8 +5,8 @@ const schema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-const registervalidation = (data) => {
+const validation = (data) => {
   return schema.validate(data);
 };
 
-module.exports.registervalidation = registervalidation;
+module.exports.validation = validation;

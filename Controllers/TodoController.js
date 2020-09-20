@@ -1,89 +1,44 @@
 const User = require("../models/User");
-const { registervalidation } = require("../validaition");
-const bcrypt = require("bcryptjs");
 
-const login = async (req, res, next) => {
-  //check for valid email and password
-  const { error } = registervalidation(req.body);
-  if (error) {
-    return res.status(400).send(error.details[0].message);
-  }
+const login = async (req, res) => {
   try {
-    //check if the user email exist or not
-    const user = await User.findOne({
-      email: req.body.email,
-    }).select({
-      _id: 1,
-      email: 1,
-      password: 1,
-      Todos: 1,
-    });
-    if (!user) {
-      return res.status(400).json({ message: "Wrong Email or Password." });
-    }
-    //check for a correct password
-    const correctPassword = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
-    if (!correctPassword) {
-      return res.status(400).json({ message: "Wrong Email or Password." });
-    }
-    //send the user info
+    const user = await User.login(req.body.email, req.body.password);
     res.json(user);
   } catch (err) {
-    console.log(err._message);
-    res.json({ message: err._message });
+    console.log(err.message);
+    res.status(400).json({ message: err.message });
   }
 };
 
-const register = async (req, res, next) => {
-  //check for valid email and password
-  const { error } = registervalidation(req.body);
-  if (error) {
-    return res.status(400).send(error.details[0].message);
-  }
-
+const register = async (req, res) => {
   try {
-    //check if the user email exist or not
-    const testuser = await User.findOne({
-      email: req.body.email,
-    });
-    if (testuser) {
-      return res.status(400).json({ message: "This email used before" });
-    }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    const user = new User({
-      email: req.body.email,
-      password: hashedPassword,
-    });
+    const user = await User.register(req.body.email, req.body.password);
     // create a new user
     const save = await user.save();
-    res.send(save);
+    res.json(save);
   } catch (err) {
-    console.log(err);
-    res.json({ message: err });
+    console.log(err.message);
+    res.status(400).json({ message: err.message });
   }
 };
 
-const todo = async (req, res, next) => {
+const todo = async (req, res) => {
   try {
     await User.findByIdAndUpdate({ _id: req.params.id }, req.body);
     res.send("update done");
   } catch (err) {
     console.log(err);
-    res.json({ message: err });
+    res.status(400).json({ message: err.message });
   }
 };
 
-const delet = async (req, res, next) => {
+const delet = async (req, res) => {
   try {
     const user = await User.findByIdAndRemove({ _id: req.params.id });
     res.send(user);
   } catch (err) {
     console.log(err);
-    res.json({ message: err });
+    res.status(400).json({ message: err.message });
   }
 };
 
